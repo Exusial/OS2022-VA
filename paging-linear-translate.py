@@ -7,12 +7,12 @@ import math
 
 def mustbepowerof2(bits, size, msg):
     if math.pow(2,bits) != size:
-        print(f'Error in argument: {msg}')
+        print('Error in argument: %s' % msg)
         sys.exit(1)
 
 def mustbemultipleof(bignum, num, msg):
     if (int(float(bignum)/float(num)) != (int(bignum) / int(num))):
-        print(f'Error in argument: {msg}')
+        print('Error in argument: %s' % msg)
         sys.exit(1)
 
 def convert(size):
@@ -86,13 +86,13 @@ mustbemultipleof(asize, pagesize, 'address space must be a multiple of the pages
 mustbemultipleof(psize, pagesize, 'physical memory must be a multiple of the pagesize')
 
 # print some useful info, like the darn page table 
-pages = psize / pagesize
+pages = psize // pagesize
 import array
 used = array.array('i')
 pt   = array.array('i')
 for i in range(0,pages):
     used.insert(i,0)
-vpages = asize / pagesize
+vpages = asize // pagesize
 
 # now, assign some pages of the VA
 vabits   = int(math.log(float(asize))/math.log(2.0))
@@ -106,9 +106,9 @@ pagemask = (1 << pagebits) - 1
 # vpnmask  = ctypes.c_uint32(~pagemask).value
 vpnmask = 0xFFFFFFFF & ~pagemask
 #if vpnmask2 != vpnmask:
-#    print('ERROR'
+#    print 'ERROR'
 #    exit(1)
-# print('va:%d page:%d vpn:%d -- %08x %08x' % (vabits, pagebits, vpnbits, vpnmask, pagemask)
+# print 'va:%d page:%d vpn:%d -- %08x %08x' % (vabits, pagebits, vpnbits, vpnmask, pagemask)
 
 print('')
 print('The format of the page table is simple:')
@@ -128,19 +128,19 @@ for v in range(0,vpages):
             if used[u] == 0:
                 used[u] = 1
                 done = 1
-                # print('%8d - %d' % (v, u)
+                # print '%8d - %d' % (v, u)
                 if options.verbose == True:
-                    print('  [%8d]  ' % v)
+                    print('  [%8d]  ' % v, end=' ')
                 else:
-                    print('  ')
+                    print('  ', end=' ')
                 print('0x%08x' % (0x80000000 | u))
                 pt.insert(v,u)
         else:
-            # print('%8d - not valid' % v
+            # print '%8d - not valid' % v
             if options.verbose == True:
-                print('  [%8d]  ' % v)
+                print('  [%8d]  ' % v, end=' ')
             else:
-                print ('  ')
+                print('  ', end=' ')
             print('0x%08x' % 0)
             pt.insert(v,-1)
             done = 1
@@ -161,7 +161,7 @@ else:
     addrList = addresses.split(',')
 
 
-print ('Virtual Address Trace')
+print('Virtual Address Trace')
 for vStr in addrList:
     # vaddr = int(asize * random.random())
     vaddr = int(vStr)
