@@ -42,7 +42,7 @@ class OS:
         # os tracks
         self.usedPages      = []
         self.usedPagesCount = 0
-        self.maxPageCount   = self.physMem / self.pageSize
+        self.maxPageCount   = self.physMem // self.pageSize
 
         # no pages used (yet)
         for i in range(0, self.maxPageCount):
@@ -185,7 +185,7 @@ class OS:
         print('')
 
     def memoryDump(self):
-        for i in range(0, self.physMem / self.pageSize):
+        for i in range(0, self.physMem // self.pageSize):
             print ('page %3d:' %  i) 
             for j in range(0, self.pageSize):
                 print('%02x' % self.memory[(i * self.pageSize) + j]),
@@ -214,7 +214,7 @@ parser = OptionParser()
 parser.add_option('-s', '--seed', default=0, help='the random seed', action='store', type='int', dest='seed')
 parser.add_option('-a', '--allocated', default=64, help='number of virtual pages allocated',
                   action='store', type='int', dest='allocated')
-parser.add_option('-n', '--addresses', default=10, help='number of virtual addresses to generate',
+parser.add_option('-n', '--addresses', default=5, help='number of virtual addresses to generate',
                   action='store', type='int', dest='num')
 parser.add_option('-c', '--solve', help='compute answers for me', action='store_true', default=False, dest='solve')
 
